@@ -1,0 +1,11 @@
+{
+  "tags": [],
+  "permission_name": "thing.super",
+  "sub_permissions": [
+    "thing.read",
+    "thing.create",
+    "thing.edit",
+    "thing.delete",
+    "thing.see_sensitive"
+  ]
+}
