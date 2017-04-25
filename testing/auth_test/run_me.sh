@@ -74,46 +74,6 @@ curl -w '\n' -X POST -D - \
     -d @./tenant_associations/login.json \
     http://localhost:9130/_/proxy/tenants/diku/modules
 
-### Thing module
-echo "Registering the Thing module"
-curl -w '\n' -X POST -D - \
-    -H "Content-type: application/json" \
-    -d @./module_descriptors/thing.json \
-    http://localhost:9130/_/proxy/modules
-
-echo "Deploying the Thing module"
-curl -w '\n' -D - -s \
-    -X POST \
-    -H "Content-type: application/json" \
-    -d @./deployment_descriptors/thing.json \
-    http://localhost:9130/_/discovery/modules
-
-echo "Adding the Thing module to our tenant"
-curl -w '\n' -X POST -D - \
-    -H "Content-type: application/json" \
-    -d @./tenant_associations/thing.json \
-    http://localhost:9130/_/proxy/tenants/diku/modules
-
-### Retrieve module
-echo "Registering the Retrieve module"
-curl -w '\n' -X POST -D - \
-    -H "Content-type: application/json" \
-    -d @./module_descriptors/retrieve.json \
-    http://localhost:9130/_/proxy/modules
-
-echo "Deploying the Retrieve module"
-curl -w '\n' -D - -s \
-    -X POST \
-    -H "Content-type: application/json" \
-    -d @./deployment_descriptors/retrieve.json \
-    http://localhost:9130/_/discovery/modules
-
-echo "Adding the Retrieve module to our tenant"
-curl -w '\n' -X POST -D - \
-    -H "Content-type: application/json" \
-    -d @./tenant_associations/retrieve.json \
-    http://localhost:9130/_/proxy/tenants/diku/modules
-
 echo "Adding the users to mod-users"
 for f in ./users/*
 do
@@ -146,6 +106,4 @@ curl -w '\n' -X POST -D - \
     http://localhost:9130/_/proxy/tenants/diku/modules
 
 echo "Okapi process id is $OKAPI_PID"
-#echo "Killing Okapi"
-#kill $OKAPI_PID
 
