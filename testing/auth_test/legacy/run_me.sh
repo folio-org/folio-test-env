@@ -7,6 +7,12 @@ export OKAPI_PID=$!
 echo Okapi PID is $OKAPI_PID
 sleep 6  #Give Okapi a few seconds to spin up
 
+##NASTY HACK TO DEAL WITH OKAPI/RMB TENANT INIT WEIRDNESS
+#sudo -u postgres bash -c "psql -c \"DROP DATABASE permissions;\""
+#sudo -u postgres bash -c "psql -c \"CREATE DATABASE permissions WITH OWNER=dbuser;\""
+#sudo -u postgres bash -c "psql -c \"DROP ROLE diku_permissions_module;\""
+##END NASTY HACK
+
 echo "Creating our tenant"
 curl -w '\n' -X POST -D - \
     -H "Content-type: application/json" \

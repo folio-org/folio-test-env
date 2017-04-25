@@ -3,5 +3,5 @@
   "port": 5432,
   "username": "dbuser",
   "password": "qwerty",
-  "database": "auth"
+  "database": "folio_backend"
 }

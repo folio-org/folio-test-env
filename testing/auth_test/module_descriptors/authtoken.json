@@ -4,28 +4,22 @@
   "provides": [
     {
       "id": "authtoken",
-      "version": "0.0.1"
+      "version": "0.0.1",
+      "handlers" : [
+        {
+          "methods" : [ "POST" ],
+          "pathPattern" : "/token"
+        }
+      ]
     }
   ],
-  "routingEntries": [
+  "filters" : [
     {
-      "methods": [
-        "*"
-      ],
-      "path": "/",
-      "level": "10",
-      "type": "request-only"
-    },
-    {
-      "methods": [
-        "POST"
-      ],
-      "path": "/token",
-      "level": "20",
-      "type": "request-response"
+      "methods" : [ "*" ],
+      "pathPattern" : "/*",
+      "phase" : "auth",
+      "type" : "request-only",
+      "modulePermissions" : [ "perms.users.get" ]
     }
-  ],
-  "modulePermissions": [
-    "perms.users.read"
   ]
 }
