@@ -47,7 +47,7 @@ cd ~/mod-auth/authtoken_module && mvn clean install
 
 ## Clone the folio-test-env repo
 ```
-cd ~ && git clone --recursive git@github.com:folio-org/folio-test-env.git
+cd ~ && git clone --recursive https://github.com/folio-org/folio-test-env.git
 ```
 
 ## Build the nodejs sample modules we will be using
