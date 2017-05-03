@@ -74,17 +74,6 @@ curl -w '\n' -X POST -D - \
     -d @./tenant_associations/login.json \
     http://localhost:9130/_/proxy/tenants/diku/modules
 
-echo "Adding the users to mod-users"
-for f in ./users/*
-do
-    echo processing $f
-    curl -w '\n' -X POST -D - \
-    -H "Content-type: application/json" \
-    -H "X-Okapi-Tenant: diku" \
-    -d @$f \
-    http://localhost:9130/users
-done
-
 ### authtoken module
 echo "Registering the authtoken module"
 curl -w '\n' -X POST -D - \

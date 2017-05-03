@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.5
--- Dumped by pg_dump version 9.5.5
+-- Dumped from database version 9.5.6
+-- Dumped by pg_dump version 9.5.6
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -12,12 +12,6 @@ SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET row_security = off;
-
---
--- Name: diku; Type: SCHEMA; Schema: -; Owner: diku
---
-
-
 
 --
 -- Name: diku_login_module; Type: SCHEMA; Schema: -; Owner: diku_login_module
@@ -29,6 +23,15 @@ CREATE SCHEMA diku_login_module;
 ALTER SCHEMA diku_login_module OWNER TO diku_login_module;
 
 --
+-- Name: diku_mod_users; Type: SCHEMA; Schema: -; Owner: diku_mod_users
+--
+
+CREATE SCHEMA diku_mod_users;
+
+
+ALTER SCHEMA diku_mod_users OWNER TO diku_mod_users;
+
+--
 -- Name: diku_permissions_module; Type: SCHEMA; Schema: -; Owner: diku_permissions_module
 --
 
@@ -38,35 +41,51 @@ CREATE SCHEMA diku_permissions_module;
 ALTER SCHEMA diku_permissions_module OWNER TO diku_permissions_module;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
--- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner:
+-- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: 
 --
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner:
+-- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner: 
 --
 
 COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
 
 
+SET search_path = public, pg_catalog;
+
+--
+-- Name: update_modified_column_groups(); Type: FUNCTION; Schema: public; Owner: dbuser
+--
+
+CREATE FUNCTION update_modified_column_groups() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$ BEGIN     NEW.update_date = current_timestamp;     RETURN NEW; END; $$;
+
+
+ALTER FUNCTION public.update_modified_column_groups() OWNER TO dbuser;
 
 SET search_path = diku_login_module, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
 
 --
 -- Name: auth_credentials; Type: TABLE; Schema: diku_login_module; Owner: dbuser
@@ -79,6 +98,34 @@ CREATE TABLE auth_credentials (
 
 
 ALTER TABLE auth_credentials OWNER TO dbuser;
+
+SET search_path = diku_mod_users, pg_catalog;
+
+--
+-- Name: groups; Type: TABLE; Schema: diku_mod_users; Owner: dbuser
+--
+
+CREATE TABLE groups (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    jsonb jsonb NOT NULL,
+    creation_date date DEFAULT now() NOT NULL,
+    update_date date DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE groups OWNER TO dbuser;
+
+--
+-- Name: users; Type: TABLE; Schema: diku_mod_users; Owner: dbuser
+--
+
+CREATE TABLE users (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    jsonb jsonb NOT NULL
+);
+
+
+ALTER TABLE users OWNER TO dbuser;
 
 SET search_path = diku_permissions_module, pg_catalog;
 
@@ -119,7 +166,30 @@ b1e2e3cf-1a97-4484-8930-e73b736eff75	{"hash": "F4B3659457E73516B84FDA2DD92D69A3A
 \.
 
 
+SET search_path = diku_mod_users, pg_catalog;
+
+--
+-- Data for Name: groups; Type: TABLE DATA; Schema: diku_mod_users; Owner: dbuser
+--
+
+COPY groups (id, jsonb, creation_date, update_date) FROM stdin;
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: diku_mod_users; Owner: dbuser
+--
+
+COPY users (id, jsonb) FROM stdin;
+76b422c8-f271-45fd-ac04-4a48e8be174c	{"id": "0001", "active": true, "username": "jill"}
+da2b36d0-9981-4ceb-bb33-e4c895d38927	{"id": "0003", "active": true, "username": "joe"}
+2118dc0c-538a-4672-8063-88e5152897ee	{"id": "0002", "active": true, "username": "shane"}
+\.
+
+
 SET search_path = diku_permissions_module, pg_catalog;
+
+
 --
 -- Data for Name: permissions_users; Type: TABLE DATA; Schema: diku_permissions_module; Owner: dbuser
 --
@@ -142,6 +212,24 @@ ALTER TABLE ONLY auth_credentials
     ADD CONSTRAINT auth_credentials_pkey PRIMARY KEY (_id);
 
 
+SET search_path = diku_mod_users, pg_catalog;
+
+--
+-- Name: groups_pkey; Type: CONSTRAINT; Schema: diku_mod_users; Owner: dbuser
+--
+
+ALTER TABLE ONLY groups
+    ADD CONSTRAINT groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: diku_mod_users; Owner: dbuser
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
 SET search_path = diku_permissions_module, pg_catalog;
 
 --
@@ -160,6 +248,29 @@ ALTER TABLE ONLY permissions_users
     ADD CONSTRAINT permissions_users_pkey PRIMARY KEY (_id);
 
 
+SET search_path = diku_mod_users, pg_catalog;
+
+--
+-- Name: group_unique_idx; Type: INDEX; Schema: diku_mod_users; Owner: dbuser
+--
+
+CREATE UNIQUE INDEX group_unique_idx ON groups USING btree (((jsonb ->> 'group'::text)));
+
+
+--
+-- Name: idxgin_groups; Type: INDEX; Schema: diku_mod_users; Owner: dbuser
+--
+
+CREATE INDEX idxgin_groups ON groups USING gin (jsonb jsonb_path_ops);
+
+
+--
+-- Name: update_date_groups; Type: TRIGGER; Schema: diku_mod_users; Owner: dbuser
+--
+
+CREATE TRIGGER update_date_groups BEFORE UPDATE ON groups FOR EACH ROW EXECUTE PROCEDURE public.update_modified_column_groups();
+
+
 --
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -168,7 +279,6 @@ REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM postgres;
 GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
-
 
 
 SET search_path = diku_login_module, pg_catalog;
@@ -181,6 +291,28 @@ REVOKE ALL ON TABLE auth_credentials FROM PUBLIC;
 REVOKE ALL ON TABLE auth_credentials FROM dbuser;
 GRANT ALL ON TABLE auth_credentials TO dbuser;
 GRANT ALL ON TABLE auth_credentials TO diku_login_module;
+
+
+SET search_path = diku_mod_users, pg_catalog;
+
+--
+-- Name: groups; Type: ACL; Schema: diku_mod_users; Owner: dbuser
+--
+
+REVOKE ALL ON TABLE groups FROM PUBLIC;
+REVOKE ALL ON TABLE groups FROM dbuser;
+GRANT ALL ON TABLE groups TO dbuser;
+GRANT ALL ON TABLE groups TO diku_mod_users;
+
+
+--
+-- Name: users; Type: ACL; Schema: diku_mod_users; Owner: dbuser
+--
+
+REVOKE ALL ON TABLE users FROM PUBLIC;
+REVOKE ALL ON TABLE users FROM dbuser;
+GRANT ALL ON TABLE users TO dbuser;
+GRANT ALL ON TABLE users TO diku_mod_users;
 
 
 SET search_path = diku_permissions_module, pg_catalog;
