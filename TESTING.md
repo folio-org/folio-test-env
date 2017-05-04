@@ -32,7 +32,7 @@ sudo n stable
 
 ## Clone the Okapi repo and build it
 ```
-git clone --recursive https://github.com/folio-org/okapi.git
+cd ~ && git clone --recursive https://github.com/folio-org/okapi.git
 cd okapi
 mvn clean install
 ```
