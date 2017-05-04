@@ -79,7 +79,7 @@ cd ~/folio-test-env/testing/auth_test/ && ln -s ~/okapi/okapi-core/target okapi
 cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-users/target mod-users
 ```
 
-## Create a symlink for permssions module
+## Create a symlink for permissions module
 ```
 cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-permissions/target permissions_module
 ```
