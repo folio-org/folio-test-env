@@ -36,15 +36,21 @@ git clone --recursive https://github.com/folio-org/okapi.git
 cd okapi
 mvn clean install
 ```
-
-## Clone the auth module repo and build the 3 modules
+## Clone and build the authtoken module
 ```
-cd ~ && git clone --recursive https://github.com/folio-org/mod-auth.git
-cd ~/mod-auth/permissions_module && mvn clean install
-cd ~/mod-auth/login_module && mvn clean install
-cd ~/mod-auth/authtoken_module && mvn clean install
+cd ~ && git clone https://github.com/folio-org/mod-authtoken.git
+cd ~/mod-authtoken && mvn clean install
 ```
-
+## Clone and build the permissions module
+```
+cd ~ && git clone --recursive https://github.com/folio-org/mod-permissions.git
+cd ~/mod-permissions && mvn clean install
+```
+## Clone and build the login module
+```
+cd ~ && git clone --recursive https://github.com/folio-org/mod-login.git
+cd ~/mod-login && mvn clean install
+```
 ## Clone the folio-test-env repo
 ```
 cd ~ && git clone --recursive https://github.com/folio-org/folio-test-env.git
@@ -75,15 +81,15 @@ cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-users/target mod-users
 
 ## Create a symlink for permssions module
 ```
-cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-auth/permissions_module/target permissions_module
+cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-permissions/target permissions_module
 ```
 ## Create a symlink for login module
 ```
-cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-auth/login_module/target login_module
+cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-login/target login_module
 ```
 ## Create a symlink for authtoken module
 ```
-cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-auth/authtoken_module/target authtoken_module
+cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-authtoken/target authtoken_module
 ```
 ## Initialize our Postgres data (and clear out any existing cruft)
 ```
