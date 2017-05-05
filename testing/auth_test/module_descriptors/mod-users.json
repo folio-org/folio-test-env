@@ -4,7 +4,7 @@
   "provides": [
     {
       "id": "users",
-      "version": "0.0.1",
+      "version": "8.0",
       "handlers" : [
         {
           "methods": [ "GET" ],
@@ -15,7 +15,7 @@
             "users.read.restricted"
           ]
         },
-        {
+	      {
           "methods" : [ "GET" ],
           "pathPattern" : "/users/{id}",
           "permissionsRequired" : [ "users.item.get" ],
@@ -89,7 +89,7 @@
     {
       "permissionName" : "users.item.get",
       "displayName" : "users item get",
-      "description" : "Read an individual record in the User module"
+      "description" : "Read an individual recocord in the User module"
     },
     {
       "permissionName" : "users.read.basic",
