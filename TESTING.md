@@ -76,20 +76,20 @@ cd ~/folio-test-env/testing/auth_test/ && ln -s ~/okapi/okapi-core/target okapi
 
 ## Create a symlink for mod-users
 ```
-cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-users/target mod-users
+cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-users mod-users
 ```
 
 ## Create a symlink for permissions module
 ```
-cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-permissions/target permissions_module
+cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-permissions mod-permissions
 ```
 ## Create a symlink for login module
 ```
-cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-login/target login_module
+cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-login mod-login
 ```
 ## Create a symlink for authtoken module
 ```
-cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-authtoken/target authtoken_module
+cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-authtoken mod-authtoken
 ```
 ## Initialize our Postgres data (and clear out any existing cruft)
 ```
