@@ -17,7 +17,7 @@ curl -w '\n' -X POST -D - \
 echo "Registering the Permissions module"
 curl -w '\n' -X POST -D - \
     -H "Content-type: application/json" \
-    -d @./module_descriptors/permissions.json \
+    -d @./mod-permissions/ModuleDescriptor.json \
     http://localhost:9130/_/proxy/modules
 
 echo "Deploying the Permissions module"
@@ -37,7 +37,7 @@ curl -w '\n' -X POST -D - \
 echo "Registering the Users module"
 curl -w '\n' -X POST -D - \
     -H "Content-type: application/json" \
-    -d @./module_descriptors/mod-users.json \
+    -d @./mod-users/ModuleDescriptor.json \
     http://localhost:9130/_/proxy/modules
 
 echo "Deploying the Users module"
@@ -58,7 +58,7 @@ curl -w '\n' -X POST -D - \
 echo "Registering the login module"
 curl -w '\n' -X POST -D - \
     -H "Content-type: application/json" \
-    -d @./module_descriptors/login.json \
+    -d @./mod-login/ModuleDescriptor.json \
     http://localhost:9130/_/proxy/modules
 
 echo "Deploying the login module"
@@ -78,7 +78,7 @@ curl -w '\n' -X POST -D - \
 echo "Registering the authtoken module"
 curl -w '\n' -X POST -D - \
     -H "Content-type: application/json" \
-    -d @./module_descriptors/authtoken.json \
+    -d @./mod-authtoken/ModuleDescriptor.json \
     http://localhost:9130/_/proxy/modules
 
 echo "Deploying the authtoken module"
