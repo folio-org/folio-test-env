@@ -102,6 +102,23 @@ ALTER TABLE auth_credentials OWNER TO dbuser;
 SET search_path = diku_mod_users, pg_catalog;
 
 --
+-- Name: addresstype; Type: TABLE; Schema: diku_mod_users; Owner: dbuser
+--
+
+CREATE TABLE addresstype (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    jsonb jsonb NOT NULL
+);
+
+
+ALTER TABLE addresstype OWNER TO dbuser;
+
+--
+-- Name: groups; Type: TABLE; Schema: diku_mod_users; Owner: dbuser
+--
+
+
+--
 -- Name: groups; Type: TABLE; Schema: diku_mod_users; Owner: dbuser
 --
 
@@ -195,10 +212,10 @@ SET search_path = diku_permissions_module, pg_catalog;
 --
 
 COPY permissions_users (_id, jsonb) FROM stdin;
-49d17eb7-0ac0-4e67-9e21-41b0364b9f68	{"username": "jack", "permissions": ["thing.read"]}
-0a1fcb83-9806-4459-a601-ca75e9551460	{"username": "jill", "permissions": ["thing.read", "thing.see_sensitive", "thing.create", "thing.delete"]}
+49d17eb7-0ac0-4e67-9e21-41b0364b9f68	{"username": "jack", "permissions": []}
+0a1fcb83-9806-4459-a601-ca75e9551460	{"username": "jill", "permissions": []}
 6d8b21ea-6a34-4d73-8ab8-8c58f8e6c148	{"username": "joe", "permissions": []}
-5b5d6eb9-77e7-4589-879d-f25ae80a1b1f	{"username": "shane", "permissions": ["perms.users", "perms.permissions", "login", "users.read", "users.create", "users.edit", "users.delete", "usergroups.read", "usergroups.create", "usergroups.edit", "usergroups.delete", "users.read.basic"]}
+5b5d6eb9-77e7-4589-879d-f25ae80a1b1f	{"username": "shane", "permissions": ["users.all", "login.all", "perms.all"]}
 \.
 
 
@@ -213,6 +230,15 @@ ALTER TABLE ONLY auth_credentials
 
 
 SET search_path = diku_mod_users, pg_catalog;
+
+--
+-- Name: addresstype_pkey; Type: CONSTRAINT; Schema: diku_mod_users; Owner: dbuser
+--
+
+ALTER TABLE ONLY addresstype
+    ADD CONSTRAINT addresstype_pkey PRIMARY KEY (id);
+
+
 
 --
 -- Name: groups_pkey; Type: CONSTRAINT; Schema: diku_mod_users; Owner: dbuser
@@ -256,6 +282,13 @@ SET search_path = diku_mod_users, pg_catalog;
 
 CREATE UNIQUE INDEX group_unique_idx ON groups USING btree (((jsonb ->> 'group'::text)));
 
+--
+-- Name: idxgin_addresstype; Type: INDEX; Schema: diku_mod_users; Owner: dbuser
+--
+
+CREATE INDEX idxgin_addresstype ON addresstype USING gin (jsonb jsonb_path_ops);
+
+
 
 --
 -- Name: idxgin_groups; Type: INDEX; Schema: diku_mod_users; Owner: dbuser
@@ -294,6 +327,16 @@ GRANT ALL ON TABLE auth_credentials TO diku_login_module;
 
 
 SET search_path = diku_mod_users, pg_catalog;
+
+--
+-- Name: addresstype; Type: ACL; Schema: diku_mod_users; Owner: dbuser
+--
+
+REVOKE ALL ON TABLE addresstype FROM PUBLIC;
+REVOKE ALL ON TABLE addresstype FROM dbuser;
+GRANT ALL ON TABLE addresstype TO dbuser;
+GRANT ALL ON TABLE addresstype TO diku_mod_users;
+
 
 --
 -- Name: groups; Type: ACL; Schema: diku_mod_users; Owner: dbuser
