@@ -1,5 +1,5 @@
 {
-  "srvcId": "authtoken-module",
+  "srvcId": "authtoken-module-0.6.0",
   "nodeId": "localhost",
   "descriptor": {
     "exec": "java -jar -Dlog.level=debug -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDelegateFactory -Dport=%p -Djwt.signing.key=CorrectBatteryHorseStaple -Dperm.lookup.timeout=25 ./mod-authtoken/target/authtoken_module-fat.jar"

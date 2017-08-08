@@ -7,7 +7,7 @@
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
-SET client_encoding = 'LATIN1';
+SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
@@ -71,6 +71,17 @@ COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
 SET search_path = public, pg_catalog;
 
 --
+-- Name: set_id_injson_groups3(); Type: FUNCTION; Schema: public; Owner: dbuser
+--
+
+CREATE FUNCTION set_id_injson_groups3() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$ DECLARE   injectedId text; BEGIN   injectedId = '"'||NEW.id||'"';   NEW.jsonb = jsonb_set(NEW.jsonb, '{id}' ,  injectedId::jsonb , true);     RETURN NEW; END; $$;
+
+
+ALTER FUNCTION public.set_id_injson_groups3() OWNER TO dbuser;
+
+--
 -- Name: update_modified_column_groups(); Type: FUNCTION; Schema: public; Owner: dbuser
 --
 
@@ -117,16 +128,11 @@ ALTER TABLE addresstype OWNER TO dbuser;
 -- Name: groups; Type: TABLE; Schema: diku_mod_users; Owner: dbuser
 --
 
-
---
--- Name: groups; Type: TABLE; Schema: diku_mod_users; Owner: dbuser
---
-
 CREATE TABLE groups (
     id uuid DEFAULT public.gen_random_uuid() NOT NULL,
     jsonb jsonb NOT NULL,
-    creation_date date DEFAULT now() NOT NULL,
-    update_date date DEFAULT now() NOT NULL
+    creation_date timestamp without time zone DEFAULT now() NOT NULL,
+    update_date timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -143,6 +149,20 @@ CREATE TABLE users (
 
 
 ALTER TABLE users OWNER TO dbuser;
+
+--
+-- Name: users_groups_view; Type: VIEW; Schema: diku_mod_users; Owner: dbuser
+--
+
+CREATE VIEW users_groups_view AS
+ SELECT u.id,
+    u.jsonb,
+    g.jsonb AS group_jsonb
+   FROM (users u
+     LEFT JOIN groups g ON (((u.jsonb ->> 'patronGroup'::text) = (g.jsonb ->> 'id'::text))));
+
+
+ALTER TABLE users_groups_view OWNER TO dbuser;
 
 SET search_path = diku_permissions_module, pg_catalog;
 
@@ -183,7 +203,16 @@ b1e2e3cf-1a97-4484-8930-e73b736eff75	{"hash": "F4B3659457E73516B84FDA2DD92D69A3A
 \.
 
 
+
 SET search_path = diku_mod_users, pg_catalog;
+
+--
+-- Data for Name: addresstype; Type: TABLE DATA; Schema: diku_mod_users; Owner: dbuser
+--
+
+COPY addresstype (id, jsonb) FROM stdin;
+\.
+
 
 --
 -- Data for Name: groups; Type: TABLE DATA; Schema: diku_mod_users; Owner: dbuser
@@ -204,7 +233,12 @@ da2b36d0-9981-4ceb-bb33-e4c895d38927	{"id": "0003", "active": true, "username": 
 \.
 
 
+
 SET search_path = diku_permissions_module, pg_catalog;
+
+--
+-- Data for Name: permissions; Type: TABLE DATA; Schema: diku_permissions_module; Owner: dbuser
+--
 
 
 --
@@ -215,8 +249,9 @@ COPY permissions_users (_id, jsonb) FROM stdin;
 49d17eb7-0ac0-4e67-9e21-41b0364b9f68	{"username": "jack", "permissions": []}
 0a1fcb83-9806-4459-a601-ca75e9551460	{"username": "jill", "permissions": []}
 6d8b21ea-6a34-4d73-8ab8-8c58f8e6c148	{"username": "joe", "permissions": []}
-5b5d6eb9-77e7-4589-879d-f25ae80a1b1f	{"username": "shane", "permissions": ["users.all", "login.all", "perms.all"]}
+5b5d6eb9-77e7-4589-879d-f25ae80a1b1f	{"username": "shane", "permissions": ["users.all", "login.all", "perms.all", "users-bl.all"]}
 \.
+
 
 
 SET search_path = diku_login_module, pg_catalog;
@@ -237,7 +272,6 @@ SET search_path = diku_mod_users, pg_catalog;
 
 ALTER TABLE ONLY addresstype
     ADD CONSTRAINT addresstype_pkey PRIMARY KEY (id);
-
 
 
 --
@@ -282,6 +316,7 @@ SET search_path = diku_mod_users, pg_catalog;
 
 CREATE UNIQUE INDEX group_unique_idx ON groups USING btree (((jsonb ->> 'group'::text)));
 
+
 --
 -- Name: idxgin_addresstype; Type: INDEX; Schema: diku_mod_users; Owner: dbuser
 --
@@ -289,12 +324,18 @@ CREATE UNIQUE INDEX group_unique_idx ON groups USING btree (((jsonb ->> 'group':
 CREATE INDEX idxgin_addresstype ON addresstype USING gin (jsonb jsonb_path_ops);
 
 
-
 --
 -- Name: idxgin_groups; Type: INDEX; Schema: diku_mod_users; Owner: dbuser
 --
 
 CREATE INDEX idxgin_groups ON groups USING gin (jsonb jsonb_path_ops);
+
+
+--
+-- Name: set_id_injson_groups3; Type: TRIGGER; Schema: diku_mod_users; Owner: dbuser
+--
+
+CREATE TRIGGER set_id_injson_groups3 BEFORE INSERT OR UPDATE ON groups FOR EACH ROW EXECUTE PROCEDURE public.set_id_injson_groups3();
 
 
 --
@@ -356,6 +397,16 @@ REVOKE ALL ON TABLE users FROM PUBLIC;
 REVOKE ALL ON TABLE users FROM dbuser;
 GRANT ALL ON TABLE users TO dbuser;
 GRANT ALL ON TABLE users TO diku_mod_users;
+
+
+--
+-- Name: users_groups_view; Type: ACL; Schema: diku_mod_users; Owner: dbuser
+--
+
+REVOKE ALL ON TABLE users_groups_view FROM PUBLIC;
+REVOKE ALL ON TABLE users_groups_view FROM dbuser;
+GRANT ALL ON TABLE users_groups_view TO dbuser;
+GRANT ALL ON TABLE users_groups_view TO diku_mod_users;
 
 
 SET search_path = diku_permissions_module, pg_catalog;

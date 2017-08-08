@@ -1,5 +1,5 @@
 {
-  "srvcId": "permissions-module",
+  "srvcId": "permissions-module-4.0.4",
   "nodeId": "localhost",
   "descriptor": {
     "exec": "java -jar ./mod-permissions/target/permissions-module-fat.jar -Dhttp.port=%p db_connection=/home/vagrant/folio-test-env/testing/postgres/pg_options.json 2>&1"
