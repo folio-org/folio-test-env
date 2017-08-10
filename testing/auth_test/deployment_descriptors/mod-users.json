@@ -1,5 +1,5 @@
 {
-  "srvcId": "mod-users-14.1.0",
+  "srvcId": "mod-users-14.1.1",
   "nodeId": "localhost",
   "descriptor": {
     "exec": "java -jar ./mod-users/target/mod-users-fat.jar -Dhttp.port=%p db_connection=/home/vagrant/folio-test-env/testing/postgres/pg_options.json debug_log_package=* 2>&1"

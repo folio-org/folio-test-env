@@ -33,7 +33,7 @@ Batch file is just a json file formatted like the following:
     ]
 }
 """
-def process_batch_file(batch_file_path, template_placeholder="<<<id>>>"):
+def process_batch_file(batch_file_path, template_placeholder="<<<id>>>", allow_fail=False):
     with open(batch_file_path, 'r') as batch_file_handle:
         batch_file_json = json.loads(batch_file_handle.read())
         for association in batch_file_json["associations"]:
@@ -41,7 +41,13 @@ def process_batch_file(batch_file_path, template_placeholder="<<<id>>>"):
             for template in association["templates"]:
                 print("Applying id from MD at %s to template at %s" %\
                         (md_path, template))
-                generate_descriptor_from_template(md_path, template, template_placeholder)
+                try:
+                    generate_descriptor_from_template(md_path, template, template_placeholder)
+                except Exception as e:
+                    if allow_fail:
+                        print("Unable to process template %s for %s: %s" % (template, md_path, e))
+                    else:
+                        raise e
 
 
 if __name__ == "__main__":
@@ -49,16 +55,18 @@ if __name__ == "__main__":
     parser.add_argument('--batch_file_path')
     parser.add_argument('--module_descriptor_path')
     parser.add_argument('--descriptor_template_path', nargs="+")
+    parser.add_argument('--allow_fail', action='store_true', default=False)
+    parser.add_argument('--placeholder', default="<<<id>>>")
     args = parser.parse_args()
-    if(not args.batch_file_path and \
+    if not args.batch_file_path and \
             (not args.module_descriptor_path or \
-            not args.descriptor_template_path)):
+            not args.descriptor_template_path):
         print("You must provide a batch file, or a module descriptor and one or more descriptor templates.")
         sys.exit(1)
     if args.batch_file_path:
         print("Using batch file %s" % args.batch_file_path)
         try:
-            process_batch_file(args.batch_file_path)
+            process_batch_file(args.batch_file_path, args.placeholder, args.allow_fail)
         except Exception as e:
             print("Error occurred running batch: %s" % e)
             sys.exit(1)
