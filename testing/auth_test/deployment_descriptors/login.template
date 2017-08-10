@@ -1,0 +1,7 @@
+{
+  "srvcId": "<<<id>>>",
+  "nodeId": "localhost",
+  "descriptor": {
+    "exec": "java -jar ./mod-login/target/login-module-fat.jar -Dhttp.port=%p verify.user=true db_connection=/home/vagrant/folio-test-env/testing/postgres/pg_options.json 2>&1"
+  }
+}
