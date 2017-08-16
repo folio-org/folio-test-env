@@ -19,17 +19,8 @@ vagrant ssh
 
 ```
 sudo apt-get update
-sudo apt-get install curl default-jdk git maven nodejs npm postgresql postgresql-contrib
+sudo apt-get install curl default-jdk git maven postgresql postgresql-contrib virtualenv
 ```
-
-## Update nodejs to the the newer version
-
-```
-sudo npm cache clean -f
-sudo npm install -g n
-sudo n stable
-```
-
 ## Clone the Okapi repo and build it
 ```
 cd ~ && git clone --recursive https://github.com/folio-org/okapi.git
@@ -39,36 +30,27 @@ mvn clean install
 ## Clone and build the authtoken module
 ```
 cd ~ && git clone https://github.com/folio-org/mod-authtoken.git
-cd ~/mod-authtoken && mvn clean install
+cd ~/mod-authtoken && git checkout dev && mvn clean install
 ```
 ## Clone and build the permissions module
 ```
 cd ~ && git clone --recursive https://github.com/folio-org/mod-permissions.git
-cd ~/mod-permissions && mvn clean install
+cd ~/mod-permissions && git checkout dev && mvn clean install
 ```
 ## Clone and build the login module
 ```
 cd ~ && git clone --recursive https://github.com/folio-org/mod-login.git
-cd ~/mod-login && mvn clean install
+cd ~/mod-login && git checkout dev && mvn clean install -DskipTests
 ```
-## Clone the folio-test-env repo
-```
-cd ~ && git clone --recursive https://github.com/folio-org/folio-test-env.git
-```
-
-## Build the nodejs sample modules we will be using
-
-```
-cd ~/folio-test-env/testing/thing_module && npm install
-cd ~/folio-test-env/testing/retrieve_module && npm install
-```
-
 ## Clone and build the mod-users repo
 ```
 cd ~ && git clone --recursive https://github.com/folio-org/mod-users.git
 cd ~/mod-users && mvn clean install
 ```
-
+## Clone the folio-test-env repo
+```
+cd ~ && git clone --recursive https://github.com/folio-org/folio-test-env.git
+``'
 ## Create symlinks in the testing directory for Okapi
 ```
 cd ~/folio-test-env/testing/auth_test/ && ln -s ~/okapi/okapi-core/target okapi
@@ -85,7 +67,7 @@ cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-permissions mod-permissio
 ```
 ## Create a symlink for login module
 ```
-cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-login mod-login
+cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-login mod-login 
 ```
 ## Create a symlink for authtoken module
 ```
@@ -106,16 +88,13 @@ sudo -u postgres bash -c "psql -c \"CREATE DATABASE folio_backend WITH OWNER=dbu
 sudo -u postgres bash -c "psql folio_backend < /home/vagrant/folio-test-env/testing/postgres/folio_backend.sql"
 ```
 
-## Run the script to load the modules
+## Install python virtual env, run script to update deployment descriptors
+```
+cd ~/folio-test-env/testing/auth_test && virtualenv -p /usr/bin/python3 pyenv
+./pyenv/bin/python generate_descriptors.py --batch_file_path descriptor_batch.json --allow_fail
+```
+## Run the script to load Okapi and the modules
 ```
 cd ~/folio-test-env/testing/auth_test/
 ./run_me.sh
-```
-
-## Build and run the Mocha tests
-
-```
-cd ~/folio-test-env/testing/mocha_testing/
-npm install
-npm start
 ```
