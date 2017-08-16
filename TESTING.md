@@ -51,7 +51,7 @@ cd ~/mod-users && mvn clean install
 ## Clone and build the mod-users-bl repo
 ```
 cd ~ && git clone --recursive https://github.com/folio-org/mod-users-bl.git
-cd ~/mod-users-bl && mvn clean install
+cd ~/mod-users-bl && git checkout dev && mvn clean install
 ```
 ## Clone the folio-test-env repo
 ```
