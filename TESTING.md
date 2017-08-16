@@ -47,10 +47,16 @@ cd ~/mod-login && git checkout dev && mvn clean install -DskipTests
 cd ~ && git clone --recursive https://github.com/folio-org/mod-users.git
 cd ~/mod-users && mvn clean install
 ```
+
+## Clone and build the mod-users-bl repo
+```
+cd ~ && git clone --recursive https://github.com/folio-org/mod-users-bl.git
+cd ~/mod-users-bl && mvn clean install
+```
 ## Clone the folio-test-env repo
 ```
 cd ~ && git clone --recursive https://github.com/folio-org/folio-test-env.git
-``'
+```
 ## Create symlinks in the testing directory for Okapi
 ```
 cd ~/folio-test-env/testing/auth_test/ && ln -s ~/okapi/okapi-core/target okapi
@@ -72,6 +78,11 @@ cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-login mod-login
 ## Create a symlink for authtoken module
 ```
 cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-authtoken mod-authtoken
+```
+
+## Create a symlink for mod-users-bl module
+```
+cd ~/folio-test-env/testing/auth_test/ && ln -s ~/mod-users-bl mod-users-bl
 ```
 ## Initialize our Postgres data (and clear out any existing cruft)
 ```
@@ -96,5 +107,5 @@ cd ~/folio-test-env/testing/auth_test && virtualenv -p /usr/bin/python3 pyenv
 ## Run the script to load Okapi and the modules
 ```
 cd ~/folio-test-env/testing/auth_test/
-./run_me.sh
+./run_me.sh && ./load_new_bl.sh
 ```
