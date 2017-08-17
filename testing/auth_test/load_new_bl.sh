@@ -10,7 +10,7 @@ echo "Deploying the Users-BL module"
 curl -w '\n' -D - -s \
     -X POST \
     -H "Content-type: application/json" \
-    -d @./deployment_descriptors/users-bl_new.json \
+    -d @./deployment_descriptors/users-bl.json \
     http://localhost:9130/_/discovery/modules
 
 echo "Adding the Users-BL module to our tenant"
