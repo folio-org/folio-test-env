@@ -96,7 +96,7 @@ sudo -u postgres bash -c "psql -c \"CREATE ROLE diku_login_module PASSWORD 'diku
 sudo -u postgres bash -c "psql -c \"CREATE ROLE diku_permissions_module PASSWORD 'diku' NOSUPERUSER NOCREATEDB INHERIT LOGIN;\""
 sudo -u postgres bash -c "psql -c \"CREATE ROLE diku_mod_users PASSWORD 'diku' NOSUPERUSER NOCREATEDB INHERIT LOGIN;\""
 sudo -u postgres bash -c "psql -c \"CREATE DATABASE folio_backend WITH OWNER=dbuser ENCODING 'UTF8' LC_CTYPE 'en_US.UTF-8' LC_COLLATE 'en_US.UTF-8' TEMPLATE 'template0';\""
-sudo -u postgres bash -c "psql folio_backend < /home/vagrant/folio-test-env/testing/postgres/folio_backend.sql"
+sudo -u postgres bash -c "psql folio_backend < /home/vagrant/folio-test-env/testing/postgres/folio_backend_dev.sql"
 ```
 
 ## Install python virtual env, run script to update deployment descriptors
