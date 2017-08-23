@@ -1,7 +1,7 @@
 {
 	"associations" : [
 		{
-			"module_descriptor" : "/home/vagrant/mod-users/ModuleDescriptor.json",
+			"module_descriptor" : "/home/vagrant/mod-users/target/ModuleDescriptor.json",
 			"templates" : [ 
 				"/home/vagrant/folio-test-env/testing/auth_test/deployment_descriptors/mod-users.template",
 				"/home/vagrant/folio-test-env/testing/auth_test/tenant_associations/mod-users.template"
