@@ -17,7 +17,7 @@ SET row_security = off;
 -- Name: diku_login_module; Type: SCHEMA; Schema: -; Owner: diku_login_module
 --
 
-CREATE SCHEMA diku_login_module;
+CREATE SCHEMA diku_mod_login;
 
 
 ALTER SCHEMA diku_login_module OWNER TO diku_login_module;
@@ -35,10 +35,10 @@ ALTER SCHEMA diku_mod_users OWNER TO diku_mod_users;
 -- Name: diku_permissions_module; Type: SCHEMA; Schema: -; Owner: diku_permissions_module
 --
 
-CREATE SCHEMA diku_permissions_module;
+CREATE SCHEMA diku_mod_permissions;
 
 
-ALTER SCHEMA diku_permissions_module OWNER TO diku_permissions_module;
+ALTER SCHEMA diku_mod_permissions OWNER TO diku_mod_permissions;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
@@ -92,7 +92,7 @@ CREATE FUNCTION update_modified_column_groups() RETURNS trigger
 
 ALTER FUNCTION public.update_modified_column_groups() OWNER TO dbuser;
 
-SET search_path = diku_login_module, pg_catalog;
+SET search_path = diku_mod_login, pg_catalog;
 
 SET default_tablespace = '';
 
@@ -164,7 +164,7 @@ CREATE VIEW users_groups_view AS
 
 ALTER TABLE users_groups_view OWNER TO dbuser;
 
-SET search_path = diku_permissions_module, pg_catalog;
+SET search_path = diku_mod_permissions, pg_catalog;
 
 --
 -- Name: permissions; Type: TABLE; Schema: diku_permissions_module; Owner: dbuser
@@ -190,7 +190,7 @@ CREATE TABLE permissions_users (
 
 ALTER TABLE permissions_users OWNER TO dbuser;
 
-SET search_path = diku_login_module, pg_catalog;
+SET search_path = diku_mod_login, pg_catalog;
 
 --
 -- Data for Name: auth_credentials; Type: TABLE DATA; Schema: diku_login_module; Owner: dbuser
@@ -219,6 +219,7 @@ COPY addresstype (id, jsonb) FROM stdin;
 --
 
 COPY groups (id, jsonb, creation_date, update_date) FROM stdin;
+5a94d5bd-f76b-4af6-bfe9-497e80094114	{"id": "5a94d5bd-f76b-4af6-bfe9-497e80094114", "group": "regular_users", "desc": "Regular-ass users"}	2017-09-07 20:38:35.644798	2017-09-07 20:38:35.644798
 \.
 
 
@@ -227,14 +228,14 @@ COPY groups (id, jsonb, creation_date, update_date) FROM stdin;
 --
 
 COPY users (id, jsonb) FROM stdin;
-76b422c8-f271-45fd-ac04-4a48e8be174c	{"id": "0001", "active": true, "username": "jill"}
-da2b36d0-9981-4ceb-bb33-e4c895d38927	{"id": "0003", "active": true, "username": "joe"}
-2118dc0c-538a-4672-8063-88e5152897ee	{"id": "0002", "active": true, "username": "shane"}
+76b422c8-f271-45fd-ac04-4a48e8be174c	{"id": "0001", "active": true, "username": "jill", "patronGroup":"5a94d5bd-f76b-4af6-bfe9-497e80094114", "personal":{"lastName":"Doe", "firstName":"Jane"}}
+da2b36d0-9981-4ceb-bb33-e4c895d38927	{"id": "0003", "active": true, "username": "joe", "patronGroup":"5a94d5bd-f76b-4af6-bfe9-497e80094114", "personal":{"lastName":"Cool", "firstName":"Joe"}}
+2118dc0c-538a-4672-8063-88e5152897ee	{"id": "0002", "active": true, "username": "shane", "patronGroup":"5a94d5bd-f76b-4af6-bfe9-497e80094114", "personal":{"lastName":"Cowboy", "firstName":"Shane"}}
 \.
 
 
 
-SET search_path = diku_permissions_module, pg_catalog;
+SET search_path = diku_mod_permissions, pg_catalog;
 
 --
 -- Data for Name: permissions; Type: TABLE DATA; Schema: diku_permissions_module; Owner: dbuser
@@ -253,7 +254,7 @@ COPY permissions_users (_id, jsonb) FROM stdin;
 
 
 
-SET search_path = diku_login_module, pg_catalog;
+SET search_path = diku_mod_login, pg_catalog;
 
 --
 -- Name: auth_credentials_pkey; Type: CONSTRAINT; Schema: diku_login_module; Owner: dbuser
@@ -289,7 +290,7 @@ ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 
-SET search_path = diku_permissions_module, pg_catalog;
+SET search_path = diku_mod_permissions, pg_catalog;
 
 --
 -- Name: permissions_pkey; Type: CONSTRAINT; Schema: diku_permissions_module; Owner: dbuser
@@ -354,7 +355,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
-SET search_path = diku_login_module, pg_catalog;
+SET search_path = diku_mod_login, pg_catalog;
 
 --
 -- Name: auth_credentials; Type: ACL; Schema: diku_login_module; Owner: dbuser
@@ -408,7 +409,7 @@ GRANT ALL ON TABLE users_groups_view TO dbuser;
 GRANT ALL ON TABLE users_groups_view TO diku_mod_users;
 
 
-SET search_path = diku_permissions_module, pg_catalog;
+SET search_path = diku_mod_permissions, pg_catalog;
 
 --
 -- Name: permissions; Type: ACL; Schema: diku_permissions_module; Owner: dbuser

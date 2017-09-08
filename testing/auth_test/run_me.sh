@@ -17,7 +17,7 @@ curl -w '\n' -X POST -D - \
 echo "Registering the Permissions module"
 curl -w '\n' -X POST -D - \
     -H "Content-type: application/json" \
-    -d @./mod-permissions/ModuleDescriptor.json \
+    -d @./mod-permissions/target/ModuleDescriptor.json \
     http://localhost:9130/_/proxy/modules
 
 echo "Deploying the Permissions module"
@@ -57,7 +57,7 @@ curl -w '\n' -X POST -D - \
 echo "Registering the login module"
 curl -w '\n' -X POST -D - \
     -H "Content-type: application/json" \
-    -d @./mod-login/ModuleDescriptor.json \
+    -d @./mod-login/target/ModuleDescriptor.json \
     http://localhost:9130/_/proxy/modules
 
 echo "Deploying the login module"
@@ -77,7 +77,7 @@ curl -w '\n' -X POST -D - \
 echo "Registering the authtoken module"
 curl -w '\n' -X POST -D - \
     -H "Content-type: application/json" \
-    -d @./mod-authtoken/ModuleDescriptor.json \
+    -d @./mod-authtoken/target/ModuleDescriptor.json \
     http://localhost:9130/_/proxy/modules
 
 echo "Deploying the authtoken module"

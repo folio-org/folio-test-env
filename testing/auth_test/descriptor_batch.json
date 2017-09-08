@@ -8,28 +8,28 @@
 			]
 		},	
 		{
-			"module_descriptor" : "/home/vagrant/mod-authtoken/ModuleDescriptor.json",
+			"module_descriptor" : "/home/vagrant/mod-authtoken/target/ModuleDescriptor.json",
 			"templates" : [
 				"/home/vagrant/folio-test-env/testing/auth_test/deployment_descriptors/authtoken.template",
 				"/home/vagrant/folio-test-env/testing/auth_test/tenant_associations/authtoken.template"
 			]
 		},
 		{
-			"module_descriptor" : "/home/vagrant/mod-login/ModuleDescriptor.json",
+			"module_descriptor" : "/home/vagrant/mod-login/target/ModuleDescriptor.json",
 			"templates" : [
 				"/home/vagrant/folio-test-env/testing/auth_test/deployment_descriptors/login.template",
 				"/home/vagrant/folio-test-env/testing/auth_test/tenant_associations/login.template"
 			]
 		},	
 		{
-			"module_descriptor" : "/home/vagrant/mod-permissions/ModuleDescriptor.json",
+			"module_descriptor" : "/home/vagrant/mod-permissions/target/ModuleDescriptor.json",
 			"templates" : [
 				"/home/vagrant/folio-test-env/testing/auth_test/deployment_descriptors/permissions.template",
 				"/home/vagrant/folio-test-env/testing/auth_test/tenant_associations/permissions.template"
 			]
 		},	
 		{
-			"module_descriptor" : "/home/vagrant/mod-users-bl/ModuleDescriptor.json",
+			"module_descriptor" : "/home/vagrant/mod-users-bl/target/ModuleDescriptor.json",
 			"templates" : [
 				"/home/vagrant/folio-test-env/testing/auth_test/deployment_descriptors/users-bl.template",
 				"/home/vagrant/folio-test-env/testing/auth_test/tenant_associations/users-bl.template"

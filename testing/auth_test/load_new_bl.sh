@@ -3,7 +3,7 @@
 echo "Registering the Users-BL module"
 curl -w '\n' -X POST -D - \
     -H "Content-type: application/json" \
-    -d @./mod-users-bl/ModuleDescriptor.json \
+    -d @./mod-users-bl/target/ModuleDescriptor.json \
     http://localhost:9130/_/proxy/modules
 
 echo "Deploying the Users-BL module"
