@@ -87,13 +87,13 @@ cd ~/folio-test-env/testing/auth_test/ && ln -s ~/mod-users-bl mod-users-bl
 ## Initialize our Postgres data (and clear out any existing cruft)
 ```
 sudo -u postgres bash -c "psql -c \"DROP DATABASE folio_backend;\""
-sudo -u postgres bash -c "psql -c \"DROP ROLE diku_login_module;\""
-sudo -u postgres bash -c "psql -c \"DROP ROLE diku_permissions_module;\""
+sudo -u postgres bash -c "psql -c \"DROP ROLE diku_mod_login;\""
+sudo -u postgres bash -c "psql -c \"DROP ROLE diku_mod_permissions;\""
 sudo -u postgres bash -c "psql -c \"DROP ROLE diku_mod_users;\""
 sudo -u postgres bash -c "psql -c \"DROP ROLE dbuser;\""
 sudo -u postgres bash -c "psql -c \"CREATE USER dbuser WITH SUPERUSER PASSWORD 'qwerty';\""
-sudo -u postgres bash -c "psql -c \"CREATE ROLE diku_login_module PASSWORD 'diku' NOSUPERUSER NOCREATEDB INHERIT LOGIN;\""
-sudo -u postgres bash -c "psql -c \"CREATE ROLE diku_permissions_module PASSWORD 'diku' NOSUPERUSER NOCREATEDB INHERIT LOGIN;\""
+sudo -u postgres bash -c "psql -c \"CREATE ROLE diku_mod_login PASSWORD 'diku' NOSUPERUSER NOCREATEDB INHERIT LOGIN;\""
+sudo -u postgres bash -c "psql -c \"CREATE ROLE diku_mod_permissions PASSWORD 'diku' NOSUPERUSER NOCREATEDB INHERIT LOGIN;\""
 sudo -u postgres bash -c "psql -c \"CREATE ROLE diku_mod_users PASSWORD 'diku' NOSUPERUSER NOCREATEDB INHERIT LOGIN;\""
 sudo -u postgres bash -c "psql -c \"CREATE DATABASE folio_backend WITH OWNER=dbuser ENCODING 'UTF8' LC_CTYPE 'en_US.UTF-8' LC_COLLATE 'en_US.UTF-8' TEMPLATE 'template0';\""
 sudo -u postgres bash -c "psql folio_backend < /home/vagrant/folio-test-env/testing/postgres/folio_backend_dev.sql"
