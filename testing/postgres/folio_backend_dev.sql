@@ -20,7 +20,7 @@ SET row_security = off;
 CREATE SCHEMA diku_mod_login;
 
 
-ALTER SCHEMA diku_login_module OWNER TO diku_login_module;
+ALTER SCHEMA diku_mod_login OWNER TO diku_mod_login;
 
 --
 -- Name: diku_mod_users; Type: SCHEMA; Schema: -; Owner: diku_mod_users
@@ -364,7 +364,7 @@ SET search_path = diku_mod_login, pg_catalog;
 REVOKE ALL ON TABLE auth_credentials FROM PUBLIC;
 REVOKE ALL ON TABLE auth_credentials FROM dbuser;
 GRANT ALL ON TABLE auth_credentials TO dbuser;
-GRANT ALL ON TABLE auth_credentials TO diku_login_module;
+GRANT ALL ON TABLE auth_credentials TO diku_mod_login;
 
 
 SET search_path = diku_mod_users, pg_catalog;
@@ -418,7 +418,7 @@ SET search_path = diku_mod_permissions, pg_catalog;
 REVOKE ALL ON TABLE permissions FROM PUBLIC;
 REVOKE ALL ON TABLE permissions FROM dbuser;
 GRANT ALL ON TABLE permissions TO dbuser;
-GRANT ALL ON TABLE permissions TO diku_permissions_module;
+GRANT ALL ON TABLE permissions TO diku_mod_permissions;
 
 
 --
@@ -428,7 +428,7 @@ GRANT ALL ON TABLE permissions TO diku_permissions_module;
 REVOKE ALL ON TABLE permissions_users FROM PUBLIC;
 REVOKE ALL ON TABLE permissions_users FROM dbuser;
 GRANT ALL ON TABLE permissions_users TO dbuser;
-GRANT ALL ON TABLE permissions_users TO diku_permissions_module;
+GRANT ALL ON TABLE permissions_users TO diku_mod_permissions;
 
 
 --
