@@ -73,6 +73,26 @@ curl -w '\n' -X POST -D - \
     -d @./tenant_associations/login.json \
     http://localhost:9130/_/proxy/tenants/diku/modules
 
+#### configuration module
+#echo "Registering the configuration module"
+#curl -w '\n' -X POST -D - \
+#    -H "Content-type: application/json" \
+#    -d @./mod-configuration/target/ModuleDescriptor.json \
+#    http://localhost:9130/_/proxy/modules
+#
+#echo "Deploying the configuration module"
+#curl -w '\n' -D - -s \
+#    -X POST \
+#    -H "Content-type: application/json" \
+#    -d @./deployment_descriptors/config.json \
+#    http://localhost:9130/_/discovery/modules
+#
+#echo "Adding the configuration module to our tenant"
+#curl -w '\n' -X POST -D - \
+#    -H "Content-type: application/json" \
+#    -d @./tenant_associations/config.json \
+#    http://localhost:9130/_/proxy/tenants/diku/modules
+
 ### authtoken module
 echo "Registering the authtoken module"
 curl -w '\n' -X POST -D - \
