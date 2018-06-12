@@ -1,0 +1,10 @@
+{
+	"id" : "26244b0c-3a1b-4da0-9824-59b78c0214b5",
+	"username" : "diane",
+	"active" : "true",
+	"patronGroup" : "<<usergroups|/groups?query=group=regular_users>>",
+	"personal" : {
+		"lastName" : "Reem",
+		"firstName" : "Diane"
+	}
+}

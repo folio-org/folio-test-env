@@ -1,0 +1,10 @@
+{
+	"id" : "b05411a6-5b5e-47d7-a9c0-51b188462211",
+	"username" : "marge",
+	"active" : "true",
+	"patronGroup" : "<<usergroups|/groups?query=group=regular_users>>",
+	"personal" : {
+		"lastName" : "Large",
+		"firstName" : "Marge"
+	}
+}

@@ -1,7 +1,0 @@
-{
-  "srvcId": "mod-users-bl-2.2.0-SNAPSHOT",
-  "nodeId": "localhost",
-  "descriptor": {
-    "exec": "java -jar ./mod-users-bl/target/mod-users-bl-fat.jar -Dhttp.port=%p debug_log_package=* 2>&1"
-  }
-}

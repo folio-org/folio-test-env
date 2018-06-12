@@ -1,0 +1,10 @@
+{
+	"id" : "c8c752ba-5ff1-4d3a-b465-9cc2ce24a7b4",
+	"username" : "tim",
+	"active" : "true",
+	"patronGroup" : "<<usergroups|/groups?query=group=regular_users>>",
+	"personal" : {
+		"lastName" : "Enchanter",
+		"firstName" : "Tim"
+	}
+}

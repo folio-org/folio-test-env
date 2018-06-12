@@ -1,0 +1,10 @@
+{
+	"id" : "bcdb2003-3b40-42bc-9569-b2ec36565dad",
+	"username" : "joe",
+	"active" : "true",
+	"patronGroup" : "<<usergroups|/groups?query=group=regular_users>>",
+	"personal" : {
+		"lastName" : "Cool",
+		"firstName" : "Joe"
+	}
+}

@@ -1,0 +1,10 @@
+{
+	"id" : "095cacfe-f115-4f2e-847d-5257b1e24fae",
+	"username" : "will",
+	"active" : "true",
+	"patronGroup" : "<<usergroups|/groups?query=group=regular_users>>",
+	"personal" : {
+		"lastName" : "Pill",
+		"firstName" : "Will"
+	}
+}

@@ -1,0 +1,10 @@
+{
+	"id" : "d5b288ae-ed60-40da-8b29-76c0d589dbb2",
+	"username" : "pam",
+	"active" : "true",
+	"patronGroup" : "<<usergroups|/groups?query=group=regular_users>>",
+	"personal" : {
+		"lastName" : "Spam",
+		"firstName" : "Pam"
+	}
+}
