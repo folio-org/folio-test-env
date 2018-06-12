@@ -1,0 +1,56 @@
+{
+  "data" : [
+    {
+      "endpoint" : "/groups",
+      "path" : "load/groups"
+    },
+    {
+      "endpoint" : "/location-units/institutions",
+      "path" : "load/institutions"
+    },
+    {
+      "endpoint" : "/location-units/campuses",
+      "path" : "load/campuses"
+    },
+    {
+      "endpoint" : "/location-units/libraries",
+      "path" : "load/libraries"
+    },
+    {
+      "endpoint" : "/addresstypes",
+      "path" : "load/addresstypes"
+    },
+    {
+      "endpoint" : "/users",
+      "path" : "load/users"
+    },
+    {
+      "endpoint" : "/authn/credentials",
+      "path" : "load/credentials"
+    },
+    {
+      "endpoint" : "/loan-types",
+      "path" : "load/loan_types"
+    },
+    {
+      "endpoint" : "/material-types",
+      "path" : "load/mtypes"
+    },
+    {
+      "endpoint" : "/identifier-types",
+      "path" : "load/identifier_types"
+    },
+    {
+      "endpoint" : "/contributor-name-types",
+      "path" : "load/contributor_types"
+    },
+    {
+      "endpoint" : "/instance-types",
+      "path" : "load/instance_types"
+    },
+    {
+      "endpoint" : "/locations",
+      "path" : "load/locations"
+    }
+  ]
+}
