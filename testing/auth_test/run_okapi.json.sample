@@ -1,0 +1,10 @@
+{
+  "modules_root" : "",
+  "okapi_path" : "",
+  "okapi_port" : "",
+  "okapi_host" : "",
+  "modules" : {},
+  "module_load_list" : [],
+  "auth_module_load_list" : [],
+  "data_load_list" : []  
+}

@@ -1,5 +1,5 @@
 {
-  "srvcId": "mod-permissions-5.0.1-SNAPSHOT",
+  "srvcId": "mod-permissions-5.1.0-SNAPSHOT",
   "nodeId": "localhost",
   "descriptor": {
     "exec": "java -jar ./mod-permissions/target/mod-permissions-fat.jar -Dhttp.port=%p db_connection=/home/vagrant/folio-test-env/testing/postgres/pg_options.json 2>&1"

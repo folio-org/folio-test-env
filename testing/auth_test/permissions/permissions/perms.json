@@ -1,8 +1,0 @@
-{
-  "tags": [],
-  "permission_name": "perms",
-  "sub_permissions": [
-    "perms.users",
-    "perms.permissions"
-  ]
-}

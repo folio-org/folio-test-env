@@ -1,9 +1,0 @@
-{
-  "username": "jill",
-  "permissions": [
-    "thing.read",
-    "thing.see_sensitive",
-    "thing.create",
-    "thing.delete"
-  ]
-}

@@ -41,6 +41,13 @@
 				"/home/vagrant/folio-test-env/testing/auth_test/deployment_descriptors/config.template",
 				"/home/vagrant/folio-test-env/testing/auth_test/tenant_associations/config.template"
 			]
+		},
+		{
+			"module_descriptor" : "/home/vagrant/mod-user-import/target/ModuleDescriptor.json",
+			"templates" : [
+				"/home/vagrant/folio-test-env/testing/auth_test/deployment_descriptors/users-import.template",
+				"/home/vagrant/folio-test-env/testing/auth_test/tenant_associations/users-import.template"
+			]
 		}
 	]
 }

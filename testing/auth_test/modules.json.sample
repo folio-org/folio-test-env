@@ -1,0 +1,30 @@
+{
+  "mod-permissions" : {
+    "exec" : "java -jar [[MODULES_ROOT]]/mod-permissions/target/mod-permissions-fat.jar -Dhttp.port=%p db_connection=[[DB_CONF]] 2>&1",
+    "md" : "[[MODULES_ROOT]]/mod-permissions/target/ModuleDescriptor.json"
+  },
+  "mod-users" : {
+    "exec" : "java -jar [[MODULES_ROOT]]/mod-users/target/mod-users-fat.jar -Dhttp.port=%p db_connection=[[DB_CONF]] debug_log_page=* 2>&1",
+    "md" : "[[MODULES_ROOT]]/mod-users/target/ModuleDescriptor.json"
+  },
+  "mod-login" : {
+    "exec" : "java -jar [[MODULES_ROOT]]/mod-login/target/mod-login-fat.jar -Dhttp.port=%p verify.user=true db_connection=[[DB_CONF]] 2>&1",
+    "md" : "[[MODULES_ROOT]]/mod-login/target/ModuleDescriptor.json"
+  },
+  "mod-users-bl" : {
+    "exec" : "java -jar [[MODULES_ROOT]]/mod-users-bl/target/mod-users-bl-fat.jar -Dhttp.port=%p debug_log_package=* 2>&1",
+    "md" : "[[MODULES_ROOT]]/mod-users-bl/target/ModuleDescriptor.json"
+  },
+  "mod-inventory-storage" : {
+    "exec" : "java -jar [[MODULES_ROOT]]/mod-inventory-storage/target/mod-inventory-storage-fat.jar -Dhttp.port=%p debug_log_package=* db_connection=[[DB_CONF]] 2>&1",
+    "md" : "[[MODULES_ROOT]]/mod-inventory-storage/target/ModuleDescriptor.json"
+  },
+  "mod-inventory" : {
+    "exec" : "java -Dport=%p -jar [[MODULES_ROOT]]/mod-inventory/target/mod-inventory.jar 2>&1",
+    "md" : "[[MODULES_ROOT]]/mod-inventory/target/ModuleDescriptor.json"
+  },
+  "mod-authtoken" : {
+    "exec" : "java -jar -Dcache.permissions=true -Dlog.level=debug -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDelegateFactory -Dport=%p -Djwt.signing.key=CorrectBatteryHorseStaple -Dperm.lookup.timeout=25 [[MODULES_ROOT]]/mod-authtoken/target/mod-authtoken-fat.jar",
+    "md" : "[[MODULES_ROOT]]/mod-authtoken/target/ModuleDescriptor.json"
+  }
+}
