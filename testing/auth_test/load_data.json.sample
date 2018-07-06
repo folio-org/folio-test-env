@@ -33,6 +33,10 @@
       "path" : "load/loan_types"
     },
     {
+      "endpoint" : "/perms/users",
+      "path" : "load/perm_users"
+    },
+    {
       "endpoint" : "/material-types",
       "path" : "load/mtypes"
     },
