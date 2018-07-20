@@ -1,10 +1,13 @@
 {
-  "modules_root" : "",
-  "okapi_path" : "",
-  "okapi_port" : "",
-  "okapi_host" : "",
+  "modules_root" : "/home/vagrant",
+  "okapi_path" : "/home/vagrant/okapi/okapi-core/target/okapi-core-fat.jar",
+  "okapi_port" : "9130",
+  "okapi_host" : "localhost",
+  "okapi_log" : "/tmp/okapi_out.log"
   "modules" : {},
-  "module_load_list" : [],
-  "auth_module_load_list" : [],
-  "data_load_list" : []  
+  "module_load_list" : ["mod-permissions", "mod-users", "mod-login", "mod-users-bl", "mod-inventory-storage", "mod-inventory"],
+  "auth_module_load_list" : ["mod-authtoken"],
+  "data_load_list" : [],
+  "tenant" : "diku",
+  "db_reset_script" : "db_init.sh"  
 }
