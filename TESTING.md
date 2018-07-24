@@ -29,7 +29,7 @@ sudo apt-get install postgresql-9.6
 ## Restart Postgres to make 9.6 run on the default port
 ```
 sudo sed -i 's/port = 5432/port = 5433/g' /etc/postgresql/9.5/main/postgresql.conf
-sudo sed -i 's/port = 5432/port = 5433/g' /etc/postgresql/9.5/main/postgresql.conf
+sudo sed -i 's/port = 5433/port = 5432/g' /etc/postgresql/9.6/main/postgresql.conf
 sudo service postgresql restart
 ```
 
