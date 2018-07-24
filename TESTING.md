@@ -20,7 +20,19 @@ vagrant ssh
 ```
 sudo apt-get update
 sudo apt-get install curl default-jdk git maven postgresql postgresql-contrib virtualenv
+sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -sc)-pgdg main"
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install postgresql-9.6
 ```
+
+## Restart Postgres to make 9.6 run on the default port
+```
+sudo sed -i 's/port = 5432/port = 5433/g' /etc/postgresql/9.5/main/postgresql.conf
+sudo sed -i 's/port = 5432/port = 5433/g' /etc/postgresql/9.5/main/postgresql.conf
+sudo service postgresql restart
+```
+
 ## Clone the Okapi repo and build it
 ```
 cd ~ && git clone --recursive https://github.com/folio-org/okapi.git
@@ -30,17 +42,17 @@ mvn clean install
 ## Clone and build the authtoken module
 ```
 cd ~ && git clone https://github.com/folio-org/mod-authtoken.git
-cd ~/mod-authtoken && git checkout dev && mvn clean install
+cd ~/mod-authtoken && mvn clean install
 ```
 ## Clone and build the permissions module
 ```
 cd ~ && git clone --recursive https://github.com/folio-org/mod-permissions.git
-cd ~/mod-permissions && git checkout dev && mvn clean install
+cd ~/mod-permissions && mvn clean install
 ```
 ## Clone and build the login module
 ```
 cd ~ && git clone --recursive https://github.com/folio-org/mod-login.git
-cd ~/mod-login && git checkout dev && mvn clean install -DskipTests
+cd ~/mod-login &&  mvn clean install
 ```
 ## Clone and build the mod-users repo
 ```
@@ -51,61 +63,42 @@ cd ~/mod-users && mvn clean install
 ## Clone and build the mod-users-bl repo
 ```
 cd ~ && git clone --recursive https://github.com/folio-org/mod-users-bl.git
-cd ~/mod-users-bl && git checkout dev && mvn clean install
+cd ~/mod-users-bl && mvn clean install
 ```
+
+## Clone and build the mod-inventory-storage repo
+```
+cd ~ && git clone --recursive https://github.com/folio-org/mod-inventory-storage.git
+cd ~/mod-inventory-storage && mvn clean install
+```
+
+## Clone and build the mod-inventory repo
+```
+cd ~ && git clone --recursive https://github.com/folio-org/mod-inventory.git
+cd ~/mod-inventory && mvn clean install
+```
+
 ## Clone the folio-test-env repo
 ```
-cd ~ && git clone --recursive https://github.com/folio-org/folio-test-env.git
-```
-## Create symlinks in the testing directory for Okapi
-```
-cd ~/folio-test-env/testing/auth_test/ && ln -s ~/okapi/okapi-core/target okapi
+cd ~ && git clone https://github.com/folio-org/folio-test-env.git
 ```
 
-## Create a symlink for mod-users
+## Copy the sample config files
 ```
-cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-users mod-users
-```
-
-## Create a symlink for permissions module
-```
-cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-permissions mod-permissions
-```
-## Create a symlink for login module
-```
-cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-login mod-login 
-```
-## Create a symlink for authtoken module
-```
-cd ~/folio-test-env/testing/auth_test/ &&  ln -s ~/mod-authtoken mod-authtoken
+cp ~/folio-test-env/testing/test/run_okapi.json.sample ~/folio-test-env/testing/test/run_okapi.json
+cp ~/folio-test-env/testing/test/modules.json.sample ~/folio-test-env/testing/test/modules.json
+cp ~/folio-test-env/testing/test/load_data.json.sample ~/folio-test-env/testing/test/load_data.json
 ```
 
-## Create a symlink for mod-users-bl module
+## Install python virtual env, enter into env
 ```
-cd ~/folio-test-env/testing/auth_test/ && ln -s ~/mod-users-bl mod-users-bl
-```
-## Initialize our Postgres data (and clear out any existing cruft)
-```
-sudo -u postgres bash -c "psql -c \"DROP DATABASE folio_backend;\""
-sudo -u postgres bash -c "psql -c \"DROP ROLE diku_mod_login;\""
-sudo -u postgres bash -c "psql -c \"DROP ROLE diku_mod_permissions;\""
-sudo -u postgres bash -c "psql -c \"DROP ROLE diku_mod_users;\""
-sudo -u postgres bash -c "psql -c \"DROP ROLE dbuser;\""
-sudo -u postgres bash -c "psql -c \"CREATE USER dbuser WITH SUPERUSER PASSWORD 'qwerty';\""
-sudo -u postgres bash -c "psql -c \"CREATE ROLE diku_mod_login PASSWORD 'diku' NOSUPERUSER NOCREATEDB INHERIT LOGIN;\""
-sudo -u postgres bash -c "psql -c \"CREATE ROLE diku_mod_permissions PASSWORD 'diku' NOSUPERUSER NOCREATEDB INHERIT LOGIN;\""
-sudo -u postgres bash -c "psql -c \"CREATE ROLE diku_mod_users PASSWORD 'diku' NOSUPERUSER NOCREATEDB INHERIT LOGIN;\""
-sudo -u postgres bash -c "psql -c \"CREATE DATABASE folio_backend WITH OWNER=dbuser ENCODING 'UTF8' LC_CTYPE 'en_US.UTF-8' LC_COLLATE 'en_US.UTF-8' TEMPLATE 'template0';\""
-sudo -u postgres bash -c "psql folio_backend < /home/vagrant/folio-test-env/testing/postgres/folio_backend_dev.sql"
+cd ~/folio-test-env/testing/test && virtualenv -p /usr/bin/python3 pyenv
+source pyenv/bin/activate
+pip install requests 
 ```
 
-## Install python virtual env, run script to update deployment descriptors
-```
-cd ~/folio-test-env/testing/auth_test && virtualenv -p /usr/bin/python3 pyenv
-./pyenv/bin/python generate_descriptors.py --batch_file_path descriptor_batch.json --allow_fail
-```
 ## Run the script to load Okapi and the modules
 ```
-cd ~/folio-test-env/testing/auth_test/
-./run_me.sh && ./load_new_bl.sh
+cd ~/folio-test-env/testing/test/
+pyenv/bin/python run_okapi.py --runtime-conf run_okapi.json --module-conf modules.json --db-conf /home/vagrant/folio-test-env/testing/postgres/pg_options.json --load-data-conf load_data.json
 ```
