@@ -5,9 +5,9 @@
   "okapi_host" : "localhost",
   "okapi_log" : "/tmp/okapi_out.log",
   "modules" : {},
-  "module_load_list" : ["mod-permissions", "mod-users", "mod-login", "mod-users-bl", "mod-inventory-storage", "mod-inventory"],
+  "module_load_list" : ["mod-permissions", "mod-users", "mod-login", "mod-inventory-storage", "mod-inventory", "mod-users-bl" ],
   "auth_module_load_list" : ["mod-authtoken"],
   "data_load_list" : [],
   "tenant" : "diku",
-  "db_reset_script" : "db_init.sh"  
+  "db_reset_script" : "db_init.sh"
 }

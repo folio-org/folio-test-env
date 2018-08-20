@@ -34,18 +34,31 @@ def expand_templates(data_dict, okapi_url, token, tenant):
     and call the grab_id method to look up the actual values for them
     """
     new_dict = data_dict.copy()
+    pattern = r"<<(.+)\|(.+)>>"
     for k,v in data_dict.items():
-        if type(v) != type(""):
+        if type(v) == type(""):
+            #print("Attempting to match '%s' against pattern '%s'" % \
+            #        (v, pattern))
+            match = re.match(pattern, v)
+            if not match:
+                continue
+            content_element = match.group(1)
+            lookup_path = match.group(2)
+            new_dict[k] = grab_id(lookup_path, content_element, okapi_url, token, tenant)
+        if type(v) == type([]):
+            new_list = v.copy()
+            for i in range(len(new_list)):
+                item = new_list[i]
+                if type(item) != type(""):
+                    continue
+                match = re.match(pattern, item)
+                if not match:
+                    continue
+                new_item = grab_id(match.group(2), match.group(1), okapi_url, token, tenant)
+                new_list[i] = new_item
+            new_dict[k] = new_list
+        else:
             continue
-        pattern = r"<<(.+)\|(.+)>>"
-        #print("Attempting to match '%s' against pattern '%s'" % \
-        #        (v, pattern))
-        match = re.match(pattern, v)
-        if not match:
-            continue
-        content_element = match.group(1)
-        lookup_path = match.group(2)
-        new_dict[k] = grab_id(lookup_path, content_element, okapi_url, token, tenant)
 
     return new_dict
 

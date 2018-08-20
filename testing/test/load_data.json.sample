@@ -55,6 +55,14 @@
     {
       "endpoint" : "/locations",
       "path" : "load/locations"
+    },
+    {
+      "endpoint" : "/service-points",
+      "path" : "load/service_points"
+    },
+    {
+      "endpoint" : "/service-points-users",
+      "path" : "load/service_points_users"
     }
   ]
 }

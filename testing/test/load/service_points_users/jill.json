@@ -1,0 +1,9 @@
+{
+  "userId" : "<<users|/users?query=username==jill>>",
+  "defaultServicePointId" : "<<servicepoints|/service-points?query=code==sp1>>",
+  "servicePointsIds" : [
+    "<<servicepoints|/service-points?query=code==sp1>>",
+    "<<servicepoints|/service-points?query=code==sp2>>",
+    "<<servicepoints|/service-points?query=code==sp3>>"
+  ]
+}
