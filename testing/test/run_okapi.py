@@ -13,14 +13,15 @@ def reset_db(script_path):
     return subprocess.run(args)
 
 def run_okapi(okapi_path, okapi_port, okapi_log):
-    args = [ "java", "-jar", "-Dport=%s" % okapi_port, okapi_path, "dev"  ]
+    args = [ "java", "-jar", "-Dport=%s" % okapi_port, "-Dport_start=%s" % (int(okapi_port) + 1),\
+            "-Dport_end=%s" % (int(okapi_port) + 30), okapi_path, "dev"  ]
     proc = None
     if okapi_log:
         out_file = open(okapi_log, 'a')
         proc = subprocess.Popen(args, stdout=out_file, stderr=out_file)
     else:
         proc = subprocess.Popen(args)
-    time.sleep(6) #give Okapi a few seconds to spin up
+    time.sleep(8) #give Okapi a few seconds to spin up
     return proc
 
 def load_module(module_dict, okapi_url, tenant, modules_root, db_conf, node, okapi_proc):

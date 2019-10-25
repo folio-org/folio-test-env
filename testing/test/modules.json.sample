@@ -20,8 +20,60 @@
     "md" : "[[MODULES_ROOT]]/mod-inventory-storage/target/ModuleDescriptor.json"
   },
   "mod-inventory" : {
-    "exec" : "java -Dport=%p -jar [[MODULES_ROOT]]/mod-inventory/target/mod-inventory.jar 2>&1",
+    "exec" : "java -Dport=%p -jar [[MODULES_ROOT]]/mod-inventory/target/mod-inventory.jar -Dhttp.port=%p 2>&1",
     "md" : "[[MODULES_ROOT]]/mod-inventory/target/ModuleDescriptor.json"
+  },
+  "mod-notify": {
+    "exec": "java -Dport=%p -jar [[MODULES_ROOT]]/mod-notify/target/mod-notify-fat.jar -Dhttp.port=%p debug_log_package=* db_connection=[[DB_CONF]] 2>&1",
+    "md" : "[[MODULES_ROOT]]/mod-notify/target/ModuleDescriptor.json"
+  },
+  "mod-configuration" : {
+    "exec" : "java -jar [[MODULES_ROOT]]/mod-configuration/mod-configuration-server/target/mod-configuration-server-fat.jar -Dhttp.port=%p db_connection=[[DB_CONF]] 2>&1",
+    "md" : "[[MODULES_ROOT]]/mod-configuration/target/ModuleDescriptor.json"
+  },
+  "mod-password-validator" : {
+    "exec" : "java -jar [[MODULES_ROOT]]/mod-password-validator/target/mod-password-validator-fat.jar -Dhttp.port=%p db_connection=[[DB_CONF]] 2>&1",
+    "md" : "[[MODULES_ROOT]]/mod-password-validator/target/ModuleDescriptor.json"
+  },
+  "mod-inventory-match" : {
+    "exec" : "java -Dport=%p -jar [[MODULES_ROOT]]/mod-inventory-match/target/mod-inventory-match-fat.jar -Dhttp.port=%p db_connection=[[DB_CONF]] 2>&1",
+    "md" : "[[MODULES_ROOT]]/mod-inventory-match/target/ModuleDescriptor.json"
+  },
+  "mod-sender" : {
+    "exec" : "java -jar [[MODULES_ROOT]]/mod-sender/target/mod-sender-fat.jar -Dhttp.port=%p db_connection=[[DB_CONF]] 2>&1",
+    "md" : "[[MODULES_ROOT]]/mod-sender/target/ModuleDescriptor.json"
+  },
+  "mod-template-engine": {
+    "exec" : "java -jar [[MODULES_ROOT]]/mod-template-engine/target/mod-template-engine-fat.jar -Dhttp.port=%p db_connection=[[DB_CONF]] 2>&1",
+    "md" : "[[MODULES_ROOT]]/mod-template-engine/target/ModuleDescriptor.json"
+  },
+  "mod-email": {
+    "exec": "java -jar [[MODULES_ROOT]]/mod-email/target/mod-email-fat.jar -Dhttp.port=%p db_connection=[[DB_CONF]] 2>&1",
+    "md" : "[[MODULES_ROOT]]/mod-email/target/ModuleDescriptor.json"
+  },
+  "mod-circulation-storage": {
+    "exec": "java -jar [[MODULES_ROOT]]/mod-circulation-storage/target/mod-circulation-storage-fat.jar -Dhttp.port=%p db_connection=[[DB_CONF]] 2>&1",
+    "md" : "[[MODULES_ROOT]]/mod-circulation-storage/target/ModuleDescriptor.json"
+  },
+  "mod-circulation": {
+    "exec": "java -Dport=%p -jar [[MODULES_ROOT]]/mod-circulation/target/mod-circulation.jar 2>&1",
+    "md" : "[[MODULES_ROOT]]/mod-circulation/target/ModuleDescriptor.json"
+  },
+  "mod-feesfines": {
+    "exec": "java -jar [[MODULES_ROOT]]/mod-feesfines/target/mod-feesfines-fat.jar -Dhttp.port=%p db_connection=[[DB_CONF]] 2>&1",
+    "md" : "[[MODULES_ROOT]]/mod-feesfines/target/ModuleDescriptor.json"
+  },
+  "mod-event-config": {
+    "exec": "java -jar [[MODULES_ROOT]]/mod-event-config/target/mod-event-config-fat.jar -Dhttp.port=%p db_connection=[[DB_CONF]] 2>&1",
+    "md" : "[[MODULES_ROOT]]/mod-event-config/target/ModuleDescriptor.json"
+  },
+  "mod-source-record-storage" : {
+    "exec": "java -jar [[MODULES_ROOT]]/mod-source-record-storage/mod-source-record-storage-server/target/mod-source-record-storage-server-fat.jar -Dhttp.port=%p db_connection=[[DB_CONF]] 2>&1",
+    "md" : "[[MODULES_ROOT]]/mod-source-record-storage/target/ModuleDescriptor.json"
+  },
+  "mod-calendar" : {
+    "exec": "java -jar [[MODULES_ROOT]]/mod-calendar/target/mod-calendar-fat.jar -Dhttp.port=%p db_connection=[[DB_CONF]] 2>&1",
+    "md" : "[[MODULES_ROOT]]/mod-calendar/target/ModuleDescriptor.json"
   },
   "mod-authtoken" : {
     "exec" : "java -jar -Dcache.permissions=true -Dlog.level=debug -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDelegateFactory -Dport=%p -Djwt.signing.key=CorrectBatteryHorseStaple -Dperm.lookup.timeout=25 [[MODULES_ROOT]]/mod-authtoken/target/mod-authtoken-fat.jar",
