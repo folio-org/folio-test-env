@@ -53,13 +53,14 @@
       "path" : "load/instance_types"
     },
     {
-      "endpoint" : "/locations",
-      "path" : "load/locations"
-    },
-    {
       "endpoint" : "/service-points",
       "path" : "load/service_points"
     },
+    {
+      "endpoint" : "/locations",
+      "path" : "load/locations"
+    },
+
     {
       "endpoint" : "/service-points-users",
       "path" : "load/service_points_users"

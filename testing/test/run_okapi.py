@@ -33,7 +33,7 @@ def load_module(module_dict, okapi_url, tenant, modules_root, db_conf, node, oka
     module_id = md_dict["id"]
     dd_dict = module_loader.make_deployment_descriptor(module_id, module_exec, None, node)
     try:
-        module_loader.load_module(okapi_url=okapi_url, module_descriptor=md_dict, deployment_descriptor=dd_dict,\
+        module_loader.create_and_deploy_module(okapi_url=okapi_url, module_descriptor=md_dict, deployment_descriptor=dd_dict,\
                 tenant=tenant, admin_tenant=None, admin_token=None)
     except Exception as e:
         print("Error loading module %s: %s" % (module_id, e))
@@ -135,7 +135,8 @@ if __name__ == "__main__":
         okapi_proc.terminate()
         sys.exit(1)
 
-    #Start Regular Modules
+    #Start Modules
+    module_install_list = []
     for module_name in config["module_load_list"]:
         print("Loading module %s" % module_name)
         module_dict = config["modules"][module_name]
@@ -147,6 +148,28 @@ if __name__ == "__main__":
             print("Error loading module %s: %s" % (module_name, e))
             okapi_proc.terminate()
             sys.exit(1)
+        module_install_list.append( { "id" : module_name, "action" : "enable" } )
+    
+    try:
+        module_loader.install_modules(module_install_list, okapi_url, tenant=config["tenant"],\
+                admin_tenant=None, admin_token=None)
+    except Exception as e:
+        print("Error adding modules to tenant: %s" % e)
+        okapi_proc.terminate()
+        sys.exit(1)
+
+    #Unload authtoken
+    module_unload_list = []
+    module_unload_output = None
+    for module_name in config["auth_module_load_list"]:
+        module_unload_list.append( { "id" : module_name, "action" : "disable" } )
+    try:
+        module_unload_output = module_loader.install_modules(module_unload_list,\
+                okapi_url, tenant=config["tenant"], admin_tenant=None, admin_token=None)
+    except Exception as e:
+        print("Error unloading modules: %s" % e)
+        okapi_proc.terminate()
+        sys.exit(1)
     
     #Do Data Loading
     if not args.no_reload:
@@ -159,18 +182,28 @@ if __name__ == "__main__":
                 okapi_proc.terminate()
                 sys.exit(1)
 
-    #Start Auth Modules
-    for module_name in config["auth_module_load_list"]:
-        print("Loading module %s" % module_name)
-        module_dict = config["modules"][module_name]
-        try:
-            load_module(module_dict=module_dict, okapi_url=okapi_url, \
-                    modules_root=config["modules_root"], db_conf=config["db_conf"],\
-                    node="localhost", okapi_proc=okapi_proc, tenant=config["tenant"])
-        except Exception as e:
-            print("Error loading module %s: %s" % (module_name, e))
-            okapi_proc.terminate()
-            sys.exit(1)
+#    #Start Auth Modules
+#    for module_name in config["auth_module_load_list"]:
+#        print("Loading module %s" % module_name)
+#        module_dict = config["modules"][module_name]
+#        try:
+#            load_module(module_dict=module_dict, okapi_url=okapi_url, \
+#                    modules_root=config["modules_root"], db_conf=config["db_conf"],\
+#                    node="localhost", okapi_proc=okapi_proc, tenant=config["tenant"])
+#        except Exception as e:
+#            print("Error loading module %s: %s" % (module_name, e))
+#            okapi_proc.terminate()
+#            sys.exit(1)
+
+    for entry in module_unload_output:
+        entry["action"] = "enable"
+    try:
+        module_loader.install_modules(module_unload_output, okapi_url, tenant=config["tenant"],
+                admin_tenant=None, admin_token=None)
+    except Exception as e:
+        print("Error reloading modules: %s" % e)
+        okapi_proc.terminate()
+        sys.exit(1)
 
     print("Okapi process is running at %s" % okapi_proc.pid)
 

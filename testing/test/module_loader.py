@@ -46,6 +46,27 @@ def load_module(okapi_url, module_descriptor, deployment_descriptor, tenant,\
     add_module_to_tenant(okapi_url=okapi_url, module_id=module_descriptor["id"],\
             tenant=tenant, admin_tenant=admin_tenant, admin_token=admin_token)
 
+#For when we don't want to add the module to the tenant, but rather will do so with the
+#install method
+def create_and_deploy_module(okapi_url, module_descriptor, deployment_descriptor, tenant,\
+        admin_tenant, admin_token=None):
+    send_module_descriptor(okapi_url=okapi_url, module_descriptor=module_descriptor,\
+            admin_tenant=admin_tenant, admin_token=admin_token)
+    send_deployment_descriptor(okapi_url=okapi_url, deployment_descriptor=deployment_descriptor,\
+            admin_tenant=admin_tenant, admin_token=admin_token)
+
+def install_modules(module_install_list, okapi_url, tenant, admin_tenant=None,\
+        admin_token=None):
+    headers = get_headers(admin_tenant, admin_token)
+    url = okapi_url + "/_/proxy/tenants/%s/install" % tenant
+    response = requests.post(url, headers=headers, json=module_install_list)
+    if not response.ok:
+        raise Exception("Error posting %s to url %s. Got code %s, %s" %
+                ( module_install_list, okapi_url, response.status_code, response.text))
+    return response.json()
+
+
+
 def make_deployment_descriptor(module_id, exec_string, url, node_id):
     dd = {}
     dd["srvcId"] = module_id
