@@ -1,0 +1,10 @@
+{
+	"id" : "c3d49d75-0b0b-4083-9e36-d429d2657f60",
+	"username" : "diku_admin",
+	"active" : "true",
+	"patronGroup" : "<<usergroups|/groups?query=group=regular_users>>",
+	"personal" : {
+		"lastName" : "Admin",
+		"firstName" : "Diku"
+	}
+}

@@ -1,0 +1,4 @@
+{
+	"userId" : "<<users|/users?query=username=diku_admin>>",
+	"permissions" : ["users.all", "login.all", "perms.all", "users-bl.all", "inventory-storage.all", "inventory.all", "inventory-match.all"]
+}
